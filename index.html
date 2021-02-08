@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>formatter</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Grid Selection</h1>
+        <p>Select tiles in the grid by using CMD/CTRL to select multiple tiles, SHIFT to select a range of tiles, or
+            drag to
+            select all tiles within an area.</p>
+
+        <input id="row" type="text" placeholder="rows" value="10">
+        <input id="column" type="text" placeholder="columns" value="10">
+        <button id="update">update</button>
+        <ul>
+            <div id="items-container">
+            </div>
+    </div>
+    <div class="ghost"></div>
+</body>
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+    crossorigin="anonymous"></script>
+<script src='main.js'></script>
+
+</html>
