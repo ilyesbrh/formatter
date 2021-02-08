@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-$blocksize: 50px;
+$blockWidth: 50px;
+$blockHeight: 30px;
 $color: #b6db23;
 $dark: desaturate(darken($color, 40%), 70%);
 $light: desaturate(lighten($color, 30%), 30%);
@@ -28,8 +29,8 @@ ul {
 li {
   margin: 10px 10px 0 0;
   padding: 15px;
-  width: $blocksize;
-  height: $blocksize;
+  width: $blockWidth;
+  height: $blockHeight;
   background: $light;
   cursor: pointer;
   color: $dark;

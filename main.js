@@ -55,9 +55,10 @@ function update_focus(el) {
     }
     //no modifiers
     else {
-        items.not(el).removeClass('focus');
-        if (count > 1) el.addClass('focus');
-        else el.toggleClass('focus');
+        let c = $('#class')[0].value;
+        el.text(c);
+        el.css('background-color', c.toHex())
+
         state.last_clicked = el;
     }
 }
@@ -73,6 +74,7 @@ function init_drag_selection(el) {
     var h = 0;
 
     el.on('mousedown', function (e) {
+
         x_start = e.pageX;
         y_start = e.pageY;
         state.mousedown = true;
@@ -95,6 +97,7 @@ function init_drag_selection(el) {
     });
 
     el.on("mousemove", function (e) {
+        e.pageY = e.pageY;
         if (state.mousedown) {
             w = Math.abs(x_start - e.pageX);
             h = Math.abs(y_start - e.pageY);
@@ -121,7 +124,7 @@ function init_drag_selection(el) {
 }
 
 //select the files that are inside the
-//ghost element when releaseing the mouse
+//ghost element when releasing the mouse
 function select_inside(x, y, w, h) {
     var box = {
         top: parseInt(y),
@@ -131,7 +134,6 @@ function select_inside(x, y, w, h) {
     }
 
     if (!state.multiselect && !state.rangeselect) {
-        items.removeClass('focus');
     }
     items.each(function () {
         var inside = (function (el) {
@@ -146,7 +148,10 @@ function select_inside(x, y, w, h) {
         })(this);
 
         if (inside) {
-            $(this).addClass('focus');
+            let c = $('#class')[0].value;
+            $(this).text(c);
+            $(this).css('background-color', c.toHex())
+            $(this).css('color', invertColor(c.toHex()))
         }
     });
 }
@@ -173,3 +178,43 @@ $('#update').on('click', function (e) {
     init_drag_selection($(document));
 
 })
+
+String.prototype.toHex = function () {
+    var hash = 0;
+    if (this.length === 0) return hash;
+    for (var i = 0; i < this.length; i++) {
+        hash = this.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+    var color = '#';
+    for (var i = 0; i < 3; i++) {
+        var value = (hash >> (i * 8)) & 255;
+        color += ('00' + value.toString(16)).substr(-2);
+    }
+    return color;
+}
+
+function invertColor(hex) {
+    if (hex.indexOf('#') === 0) {
+        hex = hex.slice(1);
+    }
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+        throw new Error('Invalid HEX color.');
+    }
+    // invert color components
+    var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+        g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+        b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+    // pad each with zeros and return
+    return '#' + padZero(r) + padZero(g) + padZero(b);
+}
+
+function padZero(str, len) {
+    len = len || 2;
+    var zeros = new Array(len).join('0');
+    return (zeros + str).slice(-len);
+}
