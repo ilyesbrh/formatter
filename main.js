@@ -217,6 +217,12 @@ $('#copy').on('click', (e) => {
 
     })
 
+    let classes_css = '';
+
+    classes.forEach(element => {
+        if (element !== '')
+            classes_css += `.${element}{grid-area: ${element};}\n`;
+    });
 
     let text_to_copy =
         `
@@ -228,8 +234,11 @@ $('#copy').on('click', (e) => {
         
         grid-template-areas:
         "${parsed_result}";
+        ${classes_css}
     }
     `;
+
+
 
     // lazy fix 
     text_to_copy = text_to_copy.replace('"";', ';');
