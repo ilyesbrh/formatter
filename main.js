@@ -169,13 +169,79 @@ $('#update').on('click', function (e) {
         ic.append(row);
         for (let j = 0; j < r; j++) {
 
-            row.append($("<li class='tile'>" + (i * r + j + 1) + "</li>"))
+            row.append($("<li class='tile'></li>"))
 
         }
 
     }
     items = $("li");
     init_drag_selection($(document));
+
+})
+
+$('#copy').on('click', (e) => {
+
+    let classes = new Set();
+
+    let I = [...$('li')]; // items
+
+    let row_length = $('#row')[0].value;
+    let column_length = $('#column')[0].value;
+
+    let longest_worlds = I.reduce((a, b) => {
+
+        classes.add(a.innerText);
+        classes.add(b.innerText);
+
+        return a.innerText.length > b.innerText.length ? a : b;
+
+    }).innerText.length;
+
+    let parsed_result = '';
+
+    spacer = (length) => {
+        let txt = '';
+        for (let index = 0; index < length; index++) {
+            txt += ' ';
+        }
+        return txt;
+    }
+
+    I.forEach((i, index) => {
+
+        let c = i.innerText.length === 0 ? '.' : i.innerText;
+
+        parsed_result += (c + spacer(longest_worlds - c.length + 2));
+
+        if ((index + 1) % row_length === 0) parsed_result += '"\n        "';
+
+    })
+
+
+    let text_to_copy =
+        `
+    .container {
+        display: grid;
+        
+        grid-template-rows: repeat(1fr, ${row_length});
+        grid-template-columns: repeat(1fr, ${column_length});
+        
+        grid-template-areas:
+        "${parsed_result}";
+    }
+    `;
+
+    // lazy fix 
+    text_to_copy = text_to_copy.replace('"";', ';');
+
+    // add
+
+    navigator.clipboard.writeText(text_to_copy).then(function () {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function (err) {
+        console.error('Async: Could not copy text: ', err);
+    });
+    console.log(text_to_copy);
 
 })
 
