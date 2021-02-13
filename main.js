@@ -218,10 +218,14 @@ $('#copy').on('click', (e) => {
     })
 
     let classes_css = '';
+    let html_text = '';
 
     classes.forEach(element => {
-        if (element !== '')
+        if (element !== '') {
             classes_css += `.${element}{grid-area: ${element};}\n`;
+            html_text += `<div class="${element}"></div>\n`;
+
+        }
     });
 
     let text_to_copy =
@@ -236,6 +240,10 @@ $('#copy').on('click', (e) => {
         "${parsed_result}";
         ${classes_css}
     }
+    
+    /* 
+    ${html_text} 
+    */
     `;
 
 
