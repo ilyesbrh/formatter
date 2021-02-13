@@ -185,8 +185,8 @@ $('#copy').on('click', (e) => {
 
     let I = [...$('li')]; // items
 
-    let row_length = $('#row')[0].value;
-    let column_length = $('#column')[0].value;
+    let column_length = $('#row')[0].value;
+    let row_length = $('#column')[0].value;
 
     let longest_worlds = I.reduce((a, b) => {
 
@@ -213,7 +213,7 @@ $('#copy').on('click', (e) => {
 
         parsed_result += (c + spacer(longest_worlds - c.length + 2));
 
-        if ((index + 1) % row_length === 0) parsed_result += '"\n        "';
+        if ((index + 1) % column_length === 0) parsed_result += '"\n        "';
 
     })
 
@@ -233,8 +233,8 @@ $('#copy').on('click', (e) => {
     .container {
         display: grid;
         
-        grid-template-rows: repeat(1fr, ${row_length});
-        grid-template-columns: repeat(1fr, ${column_length});
+        grid-template-rows: repeat(${column_length},1fr);
+        grid-template-columns: repeat(${row_length},1fr);
         
         grid-template-areas:
         "${parsed_result}";
