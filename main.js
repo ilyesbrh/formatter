@@ -233,8 +233,8 @@ $('#copy').on('click', (e) => {
     .container {
         display: grid;
         
-        grid-template-rows: repeat(${column_length},min-content);
-        grid-template-columns: repeat(${row_length},1fr);
+        grid-template-rows: repeat(${row_length},min-content);
+        grid-template-columns: repeat(${column_length},1fr);
         
         grid-template-areas:
         "${parsed_result}";
